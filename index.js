@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 // });
 
 io.on("connection", async (socket) => {
-    console.log("a user connected");
+    // console.log("a user connected");
     socket.emit("connected", { msg: "Connection Started" });
 
     socket.on("joinRoom", async function (data) {
@@ -53,7 +53,7 @@ io.on("connection", async (socket) => {
         socket.join(data.room);
         let newRoom = data.room;
         if (roomDetails[newRoom] == undefined) {
-            console.log("Enterd")
+            // console.log("Enterd")
             roomDetails[newRoom] = { users: 1, gameStatus: false };
             roomDetails[newRoom]["userId"] = [];
             let newuserId = {};
@@ -101,7 +101,7 @@ io.on("connection", async (socket) => {
             }
         }
         socket.emit("joinSuccess", { joined: true });
-        console.log(rooms, JSON.stringify(roomDetails));
+        // console.log(rooms, JSON.stringify(roomDetails));
     });
 
     socket.on("startGame", function (data) {
@@ -147,7 +147,7 @@ io.on("connection", async (socket) => {
             }
         }
 
-        console.log(rooms, JSON.stringify(roomDetails));
+        // console.log(rooms, JSON.stringify(roomDetails));
     });
 
     socket.on("win" , function(data){
@@ -155,21 +155,21 @@ io.on("connection", async (socket) => {
         let index = roomDetails[x]["userId"].findIndex((p) =>
             p ? p.socketId == socket.id : false
         );
-        console.log("Won" , index , roomDetails[x]["userId"][index]["userId"])
+        // console.log("Won" , index , roomDetails[x]["userId"][index]["userId"])
         io.in(x).emit("gameResults" , { winner : roomDetails[x]["userId"][index]["userId"] })
         // roomDetails[x]["gameStatus"] = true;
     })
 
     socket.on("disconnecting", function () {
-        console.log("Removing");
+        // console.log("Removing");
 
         for (const x of socket.rooms.values()) {
-            console.log(x);
+            // console.log(x);
             if (roomDetails[x]) {
                 socket.leave(x);
 
                 io.in(x).emit("userLeft", { msg: "A User Has Left" });
-                console.log(roomDetails[x].users);
+                // console.log(roomDetails[x].users);
                 let index = roomDetails[x]["userId"].findIndex((p) =>
                     p ? p.socketId == socket.id : false
                 );
@@ -225,11 +225,11 @@ io.on("connection", async (socket) => {
             }
         }
 
-        console.log(rooms, JSON.stringify(roomDetails));
+        // console.log(rooms, JSON.stringify(roomDetails));
     });
 
     socket.on("disconnect", () => {
-        console.log("user disconnected");
+        // console.log("user disconnected");
     });
 });
 
