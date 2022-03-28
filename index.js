@@ -2,6 +2,9 @@ const express = require("express");
 var cors = require("cors");
 var bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+var path = require('path');
+
+
 const app = express();
 const port = process.env.PORT || 5000;
 const http = require("http");
@@ -13,6 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, '/')));
+
 
 let rooms = {};
 let roomDetails = {};
