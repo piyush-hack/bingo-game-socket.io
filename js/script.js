@@ -275,7 +275,7 @@ socket.on("gameResults", function (data) {
     socket.disconnect();
     swal("Hurray " + data.winner + "!", data.winner + " Have Won The game!", "success")
         .then((value) => {
-            location.reload();
+            window.location.href = window.location.href;
         });
 })
 
