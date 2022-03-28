@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bingo</title>
+
+    <link href="https://piyush-hack.github.io/cdn/css/picss.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&family=Ubuntu&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        ::-webkit-scrollbar {
+            height: 4px;
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #9b9b9b;
+            border-radius: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        h1,
+        h3,
+        h2,
+        p {
+            font-family: 'Roboto', sans-serif;
+            font-size: 20pt;
+            font-weight: 600;
+            margin: 0 auto;
+            text-align: center;
+            padding: 30px;
+        }
+
+        p {
+            font-weight: 500;
+        }
+
+        p a {
+            text-decoration: none;
+            color: #f1c40f;
+        }
+
+        #squarefree {
+            font-family: Helvetica;
+            margin: 0 auto;
+            background: #5dc4de;
+            text-align: center;
+            font-weight: 600;
+            font-size: 15pt;
+        }
+
+        #bingotable {
+            margin: 0 auto;
+            text-align: center;
+            max-width: 100vw;
+            width: 400px;
+            height: 400px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            font-family: Helvetica;
+            margin: 0 auto;
+            text-align: center;
+            border: 3px solid black;
+            width: 20%;
+        }
+
+        .blue {
+            background: #16B5EA;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            padding-top: 10vh;
+            font-family: monospace;
+            font-size: 5vw;
+        }
+
+        .fullbody {
+            height: 100vh;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        .gameScreen {
+            opacity: 0;
+            animation: op100 3s forwards;
+        }
+
+        .mainContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #gameStatus {
+            padding: 87px;
+
+        }
+
+        .user {
+            margin: 10px 0px;
+            font-weight: bolder;
+            font-size: 21px;
+        }
+
+        .curr {
+            color: #17B5EA;
+            position: relative;
+        }
+
+        .curr::before {
+            content: "⇒";
+            position: absolute;
+            left: -28px;
+        }
+
+        .loader {
+            position: absolute;
+            background: rgb(59 52 52 / 32%);
+            width: 100%;
+            height: 100%;
+            z-index: 99999;
+            text-align: center;
+            padding-top: 30vh;
+            display: none;
+        }
+
+        .loaderGif {}
+
+
+        @keyframes op100 {
+            100% {
+                opacity: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="loader">
+        <img class="loaderGif"
+            src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/04de2e31234507.564a1d23645bf.gif" alt="">
+    </div>
+    <div id="container">
+        <div class="topModal">
+            <button type="button" class="btn btn-lg btn-outline-dark btn-rounded" data-mdb-ripple-color="dark"
+                data-mdb-toggle="modal" data-mdb-target="#setUpModal" id="setUpBtn" style="display: none;">
+                SetUp
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="setUpModal" tabindex="-1" aria-labelledby="setUpModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-top">
+                    <div class="modal-content">
+                        <div class="modal-body fullbody">
+                            <div class="justify-content-center align-items-center mt-3">
+                                <section class="container" style="min-height: 747px; ">
+                                    <div class="container-fluid h-custom">
+                                        <div class="row d-flex justify-content-center align-items-center h-100">
+                                            <div class="col-md-9 col-lg-6 col-xl-5">
+                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                                                    class="img-fluid" alt="Sample image">
+                                            </div>
+                                            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                                                <form>
+
+                                                    <div class="divider d-flex align-items-center my-4">
+                                                        <p class="text-center fw-bold mx-3 mb-0">Welcome !</p>
+                                                    </div>
+
+                                                    <!-- Room input -->
+                                                    <div class="form-outline mb-4">
+                                                        <input type="text" id="roomName"
+                                                            class="form-control form-control-lg"
+                                                            placeholder="Enter a Room Name" />
+                                                        <label class="form-label" for="roomName">Room
+                                                            Name</label>
+                                                    </div>
+
+                                                    <!-- Name input -->
+                                                    <div class="form-outline mb-4">
+                                                        <input type="text" id="joinName"
+                                                            class="form-control form-control-lg"
+                                                            placeholder="Enter a Unique Name" />
+                                                        <label class="form-label" for="joinName">Unique
+                                                            Name</label>
+                                                    </div>
+
+
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <!-- Checkbox -->
+                                                        <div class="form-check mb-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                value="" id="form2Example3" />
+                                                            <label class="form-check-label" for="form2Example3">
+                                                                Remember me
+                                                            </label>
+                                                        </div>
+                                                        <a href="#!" class="text-body">Help?</a>
+                                                    </div>
+
+                                                    <div class="text-center text-lg-start mt-4 pt-2">
+                                                        <button type="button" class="btn btn-primary btn-lg"
+                                                            style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                                                            id="loginRoom">Join</button>
+                                                        <p class="small fw-bold mt-2 pt-1 mb-0">Wanna Know More About
+                                                            Devs?
+                                                            <a href="#!" class="link-danger">GitHub</a>
+                                                        </p>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </section>
+                                <div
+                                    class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+                                    <!-- Copyright -->
+                                    <div class="text-white mb-3 mb-md-0">
+                                        Copyright © 2020. All rights reserved.
+                                    </div>
+                                    <!-- Copyright -->
+
+                                    <!-- Right -->
+                                    <div>
+                                        <a href="#!" class="text-white me-4">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                        <a href="#!" class="text-white me-4">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                        <a href="#!" class="text-white me-4">
+                                            <i class="fab fa-google"></i>
+                                        </a>
+                                        <a href="#!" class="text-white">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                    <!-- Right -->
+                                </div>
+                                <button type="button" class="btn btn-info btn-sm ms-2" data-mdb-dismiss="modal"
+                                    style="display: none;" id="openGameScreen">
+                                    Open Game
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gameScreen">
+            <div id="header">
+                <h3>Play
+                    <span style="color: #16B5EA;">Yard BINGO</span>
+                </h3>
+            </div>
+            <div class="mainContainer">
+                <div id="content">
+                    <table id="bingotable" style="display: none;">
+                        <tr>
+                            <th class="blue">B</th>
+                            <th class="blue">I</th>
+                            <th class="blue">N</th>
+                            <th class="blue">G</th>
+                            <th class="blue">O</th>
+                        </tr>
+                        <tr>
+                            <td class="bingoTd" disabled id="square0"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square1"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square2"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square3"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square4"> &nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bingoTd" disabled id="square5"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square6"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square7"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square8"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square9"> &nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bingoTd" disabled id="square10"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square11"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square12"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square13"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square14"> &nbsp;</td>
+
+                        </tr>
+                        <tr>
+                            <td class="bingoTd" disabled id="square15"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square16"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square17"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square18"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square19"> &nbsp;</td>
+
+                        </tr>
+                        <tr>
+                            <td class="bingoTd" disabled id="square20"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square21"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square22"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square23"> &nbsp;</td>
+                            <td class="bingoTd" disabled id="square24"> &nbsp;</td>
+
+                        </tr>
+                    </table>
+                </div>
+                <div id="gameStatus">
+                    <!-- <div class="user">Piyush</div>
+                    <div class="user">Ayush</div>
+                    <div class="user curr">Papa</div>
+                    <div class="user">Mummy</div>
+                    <div class="user">Joni</div> -->
+                </div>
+            </div>
+
+
+            <h3>Designed With 💖 By <b>Piyush</b></h3>
+        </div>
+
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <!-- <script src="http://localhost:5000/socket.io/socket.io.js"></script> -->
+        <script src="https://bingo.piyushdev.xyz/socket.io/socket.io.js"></script>
+        <script>
+
+
+            // var socket = io.connect('http://localhost:5000');
+            var socket = io.connect('https://bingo.piyushdev.xyz');
+            socket.on("connected", function (data) {
+                console.log(data)
+            })
+
+            let url = window.location.href;
+            let loc = url.split("/")[3];
+            console.log(loc)
+            if (loc == "room") {
+                document.getElementById("setUpBtn").click();
+            } else {
+                document.getElementById("setUpBtn").click();
+                // document.querySelector(".gameScreen").innerHTML= "";
+            }
+
+            document.getElementById("loginRoom").addEventListener("click", function () {
+                var joinName = (document.getElementById("joinName").value).trim();
+                var roomName = (document.getElementById("roomName").value).trim();
+                if (roomName == "") {
+                    swal("Enter A Room Name!", "Enter The Room Name In Which Your Friends Are!", "error");
+                    return;
+                }
+                if (joinName == "") {
+                    swal("Enter A Unique Name To Join!", "To Join The Game In This Room You Need To Enter Unique Name", "error");
+                    return;
+                } else {
+                    // swal("Wait We Are Connecting You!", "Please Give Us A Min!", "info");
+                    // swal({
+                    //     title: "Wait We Are Connecting You!!",
+                    //     text: "Please Give Us A Min!",
+                    //     type: "info",
+                    // });
+
+                    $(".loader").show();
+                    socket.emit("joinRoom", { msg: "Join Room", room: roomName, userId: joinName })
+                }
+            })
+
+
+
+            socket.on("error", function (data) {
+                if (data.type == "takenuserId") {
+                    console.log("Didn't Join  Room")
+                    swal(data.msg, "", "error");
+                    $(".loader").hide();
+                }
+
+                if (data.type == "alreadyInRoom") {
+                    console.log("You are already In The Room")
+                    alert(data.msg)
+                    $(".loader").hide();
+
+                }
+            })
+
+
+            function shuffle(array) {
+                let currentIndex = array.length, randomIndex;
+
+                // While there remain elements to shuffle...
+                while (currentIndex != 0) {
+
+                    // Pick a remaining element...
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+
+                    // And swap it with the current element.
+                    [array[currentIndex], array[randomIndex]] = [
+                        array[randomIndex], array[currentIndex]];
+                }
+
+                return array;
+            }
+
+            function splitArray(array, part) {
+                var tmp = [];
+                for (var i = 0; i < array.length; i += part) {
+                    tmp.push(array.slice(i, i + part));
+                }
+                return tmp;
+            }
+            const Matrix = function (matrix) { this.matrix = matrix; }
+
+            Matrix.prototype.getHorizontalSequences = function () {
+                const matrix = this.matrix, sets = [];
+
+                for (let i = 0; i < matrix.length; ++i) {
+                    const row = matrix[i];
+
+                    for (let j = 0; j < row.length; ++j) {
+                        const start = j;
+                        let k = j + 1;
+
+                        for (; k < row.length; ++k) {
+                            if (row[j] !== row[k]) break;
+                        }
+
+                        sets.push({ row: i, val: row[j], start: start, end: k - 1 });
+                        j = k - 1;
+                    }
+                }
+
+                return sets;
+            };
+
+            Matrix.prototype.getVerticalSequences = function () {
+                const matrix = this.matrix, sets = [];
+
+                for (let i = 0; i < matrix[0].length; ++i) {
+                    for (let j = 0; j < matrix.length; ++j) {
+                        const start = j;
+                        let k = j + 1;
+
+                        for (; k < matrix.length; ++k) {
+                            if (matrix[j][i] !== matrix[k][i]) break;
+                        }
+
+                        sets.push({ col: i, val: matrix[j][i], start: start, end: k - 1 });
+                        j = k - 1;
+                    }
+                }
+
+                return sets;
+            };
+
+            Matrix.prototype.getDiagonalSequences = function () {
+                const matrix = this.matrix, sets = [];
+                for (let i = 0; i < matrix[0].length; i++) {
+                    for (let j = i; j < matrix.length; j++) {
+                        const start = j;
+                        let k = j + 1;
+
+                        for (; k < matrix.length; k++) {
+                            if (matrix[j][i] !== (matrix[j + k] || [])[i + k]) break;
+                        }
+                        sets.push({ col: i, val: matrix[j][i], start: start, end: k });
+                        j = k - 1;
+                    }
+                }
+
+                return sets;
+            };
+
+            Matrix.prototype.getRightDiagonalSequences = function () {
+                const matrix = this.matrix;
+                const len = matrix.length - 1;
+                sets = [];
+                let allSame = true;
+                for (let i = 0; i < matrix.length; i++) {
+                    const e = matrix[i][len - i];
+                    if (len - i - 1 >= 0 && matrix[i][len - i] !== matrix[i + 1][len - i - 1]) {
+                        allSame = false;
+                        break;
+                    }
+
+                    if (len - i - 1 < 0 && allSame === true) {
+                        sets.push({ col: 0, val: matrix[i][len - i], start: len - i, end: len });
+                    }
+                }
+
+                return sets;
+            }
+
+
+            const N = 25;
+            let bingoNums = Array.from({ length: N }, (_, index) => index + 1);
+            console.log(bingoNums);
+
+            // function randomIntFromInterval(min, max) { // min and max included 
+            //     return Math.floor(Math.random() * (max - min + 1) + min)
+            // }
+
+            // const rndInt = randomIntFromInterval(1, 25)
+
+            bingoNums = shuffle(bingoNums);
+
+
+            for (let i = 0; i < bingoNums.length; i++) {
+                const e = bingoNums[i];
+                let currBox = "square" + i;
+                document.getElementById(currBox).textContent = e;
+            }
+
+            // let allTds = document.querySelectorAll(".bingoTd");
+            // for (let i = 0; i < allTds.length; i++) {
+            //     const td = allTds[i];
+            //     td.onclick = function () {
+            //         let temp = td.id
+            //         td.textContent = "X"
+            //         // console.log((td.id).slice(6,))
+            //         bingoNums[(td.id).slice(6,)] = -1;
+            //         checkStatus(temp);
+            //     }
+            // }
+
+            socket.on("joinSuccess", function (data) {
+                if (data.joined == true) {
+                    $(".loader").hide();
+                    $("#openGameScreen").click();
+                }
+            })
+
+            function startGame(startBtn) {
+                socket.emit("startGame", { msg: "Start Game" });
+                startBtn.remove();
+
+            }
+            socket.on("startGameForAll", function (data) {
+                $("#bingotable").show();
+            })
+
+            socket.on("turn", function (data) {
+                console.log("Your Turn", data.gameStatus);
+
+
+                console.log("gameStatus", data.gameStatus)
+                if (data.gameStatus == false) {
+                    $(".gameScreen").append(`<button id="startBtn" class="btn btn-sm btn-outline-dark btn-rounded" data-mdb-ripple-color="dark" onclick="startGame(this)" >START</button>`)
+                }
+                $(".bingoTd").on('click', function () {
+                    // console.log($(this).html(), this.id, turn)
+                    if ($(this).html() != "X") {
+                        let temp = $(this).html();
+                        socket.emit("nextTurn", { cross: temp });
+                    }
+                    $(".bingoTd").off('click');
+
+                });
+
+                $(".bingoTd").each(function () {
+                    if ($(this).html() == "X") {
+                        $(this).off('click')
+                    }
+                })
+            })
+
+            socket.on("showTurn", function (data) {
+                // console.log(data)
+                if (data.gameStatus == true) {
+                    $("#bingotable").show();
+                }
+
+                let divHtml = "";
+                for (const key in data.userId) {
+                    const element = data.userId[key];
+                    if (element) {
+
+
+                        divHtml += `<div class="user ${element.turn ? 'curr' : ''} ">${element.userId == (document.getElementById("joinName").value).trim() ? "You" : element.userId} ${data.gameStatus == false && element.turn == true ? ' - Will Start Game' : ''}</div>`
+                    }
+
+                }
+                console.log(divHtml, data.userId)
+
+                document.getElementById("gameStatus").innerHTML = "<h3>Players</h3>" + divHtml;
+            })
+
+            socket.on("doCross", function (data) {
+                $(".bingoTd").each(function () {
+                    if ($(this).html() === data.cross) {
+                        $(this).css("backgroundColor", "#30C731");
+                        $(this).css("color", "white");
+                        $(this).html("X");
+                        bingoNums[(this.id).slice(6,)] = -1;
+                        checkStatus(this.id);
+                    }
+                })
+            })
+
+            socket.on("gameResults", function (data) {
+                // swal("Hurray " + data.winner + "!", data.winner + " Have Won The game!", "success");
+                socket.disconnect();
+                swal("Hurray " + data.winner + "!", data.winner + " Have Won The game!", "success")
+                    .then((value) => {
+                        location.reload();
+                    });
+            })
+
+
+            async function checkStatus(temp) {
+                let allCrosses = 0;
+                let matrix = bingoNums;
+                matrix = await splitArray(matrix, 5);
+                matrix = new Matrix(matrix); // Reshape array in-place.
+                allCrosses += (matrix.getHorizontalSequences().filter(e => (e.end + 1) - e.start >= 5)).length;
+                allCrosses += (matrix.getVerticalSequences().filter(e => (e.end + 1) - e.start >= 5)).length;
+                allCrosses += (matrix.getDiagonalSequences().filter(e => (e.end + 1) - e.start >= 5)).length;
+                allCrosses += (matrix.getRightDiagonalSequences()).length;
+                // console.log(matrix.getHorizontalSequences().filter(e => (e.end + 1) - e.start >= 5));
+                // console.log(matrix.getVerticalSequences().filter(e => (e.end + 1) - e.start >= 5));
+                // console.log(matrix.getDiagonalSequences().filter(e => (e.end + 1) - e.start >= 5));
+                // console.log(matrix.getRightDiagonalSequences());
+                console.log("allCrosses", allCrosses)
+                if (allCrosses >= 1) {
+                    console.log("Won")
+                    socket.emit("win", { msg: "Game Won And Ended" })
+                }
+                socket.emit("choosed", { tdId: temp })
+            }
+
+        </script>
+
+</body>
+
+</html>
