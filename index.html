@@ -648,7 +648,7 @@
                 // console.log(matrix.getDiagonalSequences().filter(e => (e.end + 1) - e.start >= 5));
                 // console.log(matrix.getRightDiagonalSequences());
                 console.log("allCrosses", allCrosses)
-                if (allCrosses >= 1) {
+                if (allCrosses >= 5) {
                     console.log("Won")
                     socket.emit("win", { msg: "Game Won And Ended" })
                 }
