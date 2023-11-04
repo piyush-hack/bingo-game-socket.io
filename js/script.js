@@ -1,5 +1,5 @@
 
-var socket = io.connect('http://65.0.153.201/');
+var socket = io.connect('http://65.0.153.201:5000/');
 // var socket = io.connect('http://localhost:5000/');
 socket.on("connected", function (data) {
     console.log(data)
