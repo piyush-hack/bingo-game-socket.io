@@ -1,7 +1,6 @@
 
-// var socket = io.connect('http://localhost:5000');
-var socket = io.connect('https://bingo-fun-game.herokuapp.com');
-// var socket = io.connect('https://bingo.piyushdev.xyz');
+var socket = io.connect('https://rgnushn6iag3qiivjwrsodudyy0kdaur.lambda-url.ap-south-1.on.aws/');
+// var socket = io.connect('http://localhost:5000/');
 socket.on("connected", function (data) {
     console.log(data)
 })

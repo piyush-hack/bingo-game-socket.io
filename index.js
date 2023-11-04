@@ -25,15 +25,6 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
 
-// app.get('/room/:roomName', (req, res) => {
-//     console.log(req.params)
-//     const newRoom = req.params.roomName
-//     // rooms[newRoom] = rooms[newRoom] != undefined ? ++rooms[newRoom] : 1;
-
-//     console.log(rooms , roomDetails)
-//     res.sendFile(__dirname + '/index.html');
-// });
-
 io.on("connection", async (socket) => {
     // console.log("a user connected");
     socket.emit("connected", { msg: "Connection Started" });
@@ -265,3 +256,5 @@ io.on("connection", async (socket) => {
 server.listen(port, () => {
     console.log(`listening on *:${port}`);
 });
+
+// module.exports = app
